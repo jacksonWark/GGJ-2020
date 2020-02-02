@@ -11,13 +11,14 @@ public class InteractionManager : MonoBehaviour
     // UI manager?
     public Text UIText;
     public Text badText;
+    public Text[] parts = new Text[4];
 
     public enum partTypes : int { HEAD, ARMS, LEGS, COGS }
     int[] inventory;
 
     private void Awake()
     {
-
+        
     }
 
     // Start is called before the first frame update
@@ -26,6 +27,10 @@ public class InteractionManager : MonoBehaviour
         inventory = new int[] { 0, 0, 0, 0 };
         //UIText.enabled = false;
         //badText.enabled = false;
+        foreach (Text t in parts)
+        {
+            t.text = "0";
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -62,6 +67,7 @@ public class InteractionManager : MonoBehaviour
                         subject.Interact();
                         creditTracker.spendCredits(num);
                         inventory[index]++;
+                        RefreshUI();
                     }
                     else
                     {
@@ -76,6 +82,7 @@ public class InteractionManager : MonoBehaviour
                         subject.Interact();
                         creditTracker.addCredits(num);
                         inventory[index]--;
+                        RefreshUI();
                     }
                     else
                     {
@@ -98,4 +105,13 @@ public class InteractionManager : MonoBehaviour
     }
 
 
+    void RefreshUI()
+    {
+        int i = 0;
+        foreach (Text t in parts)
+        {
+            t.text = inventory[i].ToString();
+            i++;
+        }
+    }
 }
