@@ -29,6 +29,7 @@ public class WaypointController : MonoBehaviour
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, rotationToTarget, rotationStep);
+        //transform.rotation = rotationToTarget;
 
         float distance = Vector3.Distance(transform.position, targetWaypoint.position);
         CheckDistanceToWaypoint(distance);        
@@ -40,6 +41,7 @@ public class WaypointController : MonoBehaviour
 
     void CheckDistanceToWaypoint(float currentDistance)
     {
+        //Debug.Log("DtW:" + currentDistance);
         if(currentDistance <= minDistance)
         {
             targetWaypointIndex++;
@@ -53,8 +55,8 @@ public class WaypointController : MonoBehaviour
         {
             targetWaypointIndex = 0;
         }
-        Debug.LogError("targetIndex:" + targetWaypointIndex);
-        Debug.LogError("lastIndex:" + lastWaypointIndex);
+        Debug.Log("targetIndex:" + targetWaypointIndex);
+        //Debug.Log("lastIndex:" + lastWaypointIndex);
         targetWaypoint = waypoints[targetWaypointIndex];
     }
 }
