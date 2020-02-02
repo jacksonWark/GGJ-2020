@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CreditTracker : MonoBehaviour
 {
 
-    public int score;
+    public int credits;
     public static CreditTracker instance;
 
     //If there is a score tracker, replace it with this one that is not deleted on scene change
@@ -25,19 +25,28 @@ public class CreditTracker : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void addCredits(int credits)
+    private void Start()
     {
-
+        credits = 1;
     }
 
-    public void spendCredits(int credits)
+    public void addCredits(int cred)
     {
-
+        credits += cred;
     }
 
-    public void GameOver(int endScore)
+    public void spendCredits(int cred)
     {
-        score = endScore;
+        credits -= cred;
+    }
+
+    public int getCreditBalance()
+    {
+        return credits;
+    }
+
+    public void GameOver()
+    {
         SceneManager.LoadScene("GameOver");
     }
 }

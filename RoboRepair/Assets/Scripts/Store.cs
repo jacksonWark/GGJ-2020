@@ -5,9 +5,9 @@ using UnityEngine;
 public class Store : MonoBehaviour, IInteractable
 {
     #region Fields
-    public enum StoreType : int { HEAD, ARMS, LEGS, COGS}
+    //public enum StoreType : int { HEAD, ARMS, LEGS, COGS}
 
-    public StoreType type;
+    public int type;
 
     private string infoString;
 
