@@ -5,8 +5,8 @@ using UnityEngine;
 public class Store : MonoBehaviour, IInteractable
 {
     #region Fields
-    //public enum StoreType : int { HEAD, ARMS, LEGS, COGS}
-
+    // Type of part
+    // { 0 = HEAD, 1 = ARMS, 2 = LEGS, 3 = COGS}
     public int type;
 
     private string infoString;
@@ -21,20 +21,14 @@ public class Store : MonoBehaviour, IInteractable
         infoString = type.ToString() + " " + price.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public string Detect()
     {
         return infoString;
     }
 
-    public bool Interact()
+    public void Interact()
     {
-        return true;
+        
     }
 
 }

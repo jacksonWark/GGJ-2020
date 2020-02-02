@@ -50,7 +50,6 @@ public class InteractionManager : MonoBehaviour
             if (other.tag == "store") { UIText.text += "buy"; }
             else { UIText.text += "repair"; }
 
-            string backup = UIText.text;
             int num = Convert.ToInt32(info[1]);
             int index = Convert.ToInt32(info[0]);
 
