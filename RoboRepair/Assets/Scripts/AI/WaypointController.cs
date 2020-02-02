@@ -7,7 +7,7 @@ public class WaypointController : MonoBehaviour
     public List<Transform> waypoints = new List<Transform>();
     private Transform targetWaypoint;
     private int targetWaypointIndex = 0;
-    private float minDistance = 0.3f;
+    private float minDistance = 0.1f;
     private int lastWaypointIndex;
     public float movementSpeed = 3.0f;
     public float rotationSpeed = 2.0f;
@@ -23,13 +23,13 @@ public class WaypointController : MonoBehaviour
     void Update()
     {
         float movementStep = movementSpeed * Time.deltaTime;
-        //float rotationStep = rotationSpeed * Time.deltaTime;
+        float rotationStep = rotationSpeed * Time.deltaTime;
 
         Vector3 directionToTarget = targetWaypoint.position - transform.position;
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
 
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotationToTarget, rotationStep);
-        transform.rotation = rotationToTarget;
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationToTarget, rotationStep);
+        //transform.rotation = rotationToTarget;
 
         float distance = Vector3.Distance(transform.position, targetWaypoint.position);
         CheckDistanceToWaypoint(distance);        
