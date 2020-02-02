@@ -6,8 +6,8 @@ using UnityEngine.AI;
 
 public class NPCmove : MonoBehaviour
 {
-    [SerializeField]
-    Transform _destination;
+    //[SerializeField]
+    //Transform _destination;
 
     NavMeshAgent _navMeshAgent;
 
@@ -29,10 +29,10 @@ public class NPCmove : MonoBehaviour
 
     private void SetDestination()
     {
-        if(_destination != null)
-        {
-            Vector3 targetVector = _destination.transform.position;
-            _navMeshAgent.SetDestination(targetVector);
-        }
+        //if(_destination != null)
+       // {
+       //     Vector3 targetVector = _destination.transform.position;
+       //     _navMeshAgent.SetDestination(targetVector);
+       // }
     }
 }
