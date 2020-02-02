@@ -28,8 +28,8 @@ public class CreditTracker : MonoBehaviour
 
     private void Start()
     {
-        credText.text = "$1";
-        credits = 1;
+        credText.text = "$1000";
+        credits = 1000;
     }
 
     public void addCredits(int cred)

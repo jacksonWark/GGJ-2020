@@ -13,24 +13,27 @@ public class InteractionManager : MonoBehaviour
     public Text badText;
     public Text[] parts = new Text[4];
 
-    public enum partTypes : int { HEAD, ARMS, LEGS, COGS }
+    //public enum partTypes : int { HEAD, ARMS, LEGS, COGS }
     int[] inventory;
-
-    private void Awake()
-    {
-        
-    }
+    public int invSize;
+    int itemCount;
 
     // Start is called before the first frame update
     void Start()
     {
         inventory = new int[] { 0, 0, 0, 0 };
+        itemCount = 0;
         //UIText.enabled = false;
         //badText.enabled = false;
         foreach (Text t in parts)
         {
             t.text = "0";
         }
+    }
+
+    private void Update()
+    {
+        Drop();
     }
 
     private void OnTriggerStay(Collider other)
@@ -60,27 +63,36 @@ public class InteractionManager : MonoBehaviour
             {
                 if (other.gameObject.tag == "store")
                 {
-                    Debug.Log(num.ToString() + " " + creditTracker.getCreditBalance().ToString());
-                    if (creditTracker.getCreditBalance() >= num)
+                    //Debug.Log(num.ToString() + " " + creditTracker.getCreditBalance().ToString());
+                    if (itemCount > 9)
                     {
-                        subject.Interact();
-                        creditTracker.spendCredits(num);
-                        inventory[index]++;
-                        RefreshUI();
+                        badText.text = "Not enough space to carry!";
                     }
                     else
                     {
-                        badText.text = "You need more money!";
-                        badText.enabled = true;
+                        if (creditTracker.getCreditBalance() >= num)
+                        {
+                            subject.Interact();
+                            creditTracker.spendCredits(num);
+                            inventory[index]++;
+                            itemCount++;
+                            RefreshUI();
+                        }
+                        else
+                        {
+                            badText.text = "You need more money!";
+                            badText.enabled = true;
+                        }
                     }
                 }
                 else
                 {
-                    if (inventory[index] >= 1)
+                    if (inventory[index] > 0)
                     {
                         subject.Interact();
                         creditTracker.addCredits(num);
                         inventory[index]--;
+                        itemCount--;
                         RefreshUI();
                     }
                     else
@@ -112,5 +124,46 @@ public class InteractionManager : MonoBehaviour
             t.text = inventory[i].ToString();
             i++;
         }
+    }
+
+    void Drop()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            if (inventory[0] > 0)
+            {
+                inventory[0]--;
+                itemCount--;
+                RefreshUI();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            if (inventory[1] > 0)
+            {
+                inventory[1]--;
+                itemCount--;
+                RefreshUI();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            if (inventory[2] > 0)
+            {
+                inventory[2]--;
+                itemCount--;
+                RefreshUI();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            if (inventory[3] > 0)
+            {
+                inventory[3]--;
+                itemCount--;
+                RefreshUI();
+            }
+        }
+
     }
 }
