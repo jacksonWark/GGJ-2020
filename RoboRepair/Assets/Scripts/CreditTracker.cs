@@ -32,19 +32,19 @@ public class CreditTracker : MonoBehaviour
         credits = 1000;
     }
 
-    public void addCredits(int cred)
+    public void AddCredits(int cred)
     {
         credits += cred;
         credText.text = "$" + credits.ToString();
     }
 
-    public void spendCredits(int cred)
+    public void SpendCredits(int cred)
     {
         credits -= cred;
         credText.text = "$" + credits.ToString();
     }
 
-    public int getCreditBalance()
+    public int GetCreditBalance()
     {
         return credits;
     }

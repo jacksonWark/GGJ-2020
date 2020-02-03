@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour, IInteractable
 {
+    SphereCollider trigger;
 
     private string infoString;
     private float breakTime;
     private int reward;
 
     //Type of break
-    // { 0 = HEAD, 1 = ARMS, 2 = LEGS, 3 = COGS}
+    // { 0 = HEAD, 1 = ARMS, 2 = LEGS, 3 = COGS, 4 = NOT BROKEN}
     private int breakType;
 
-    private bool isBroken;
+    private void Awake()
+    {
+        trigger = GetComponent<SphereCollider>();
+        trigger.enabled = false;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        isBroken = false;
-        breakTime = Random.Range(10f, 601f);
-        BreakTimer();
+        breakType = 4;
+        breakTime = Random.Range(10f, 60f);
+        StartCoroutine(BreakTimer());
     }
 
     // Update is called once per frame
@@ -32,11 +37,10 @@ public class Robot : MonoBehaviour, IInteractable
     private void Break()
     {
         breakType = Random.Range(0, 4);
-        reward = Random.Range(5, 101);
+        reward = Random.Range(5, 301);
         infoString = breakType.ToString() + " " + reward.ToString();
-        //instantiate prefab with trigger collider
-        isBroken = true;
-       
+        //enable trigger collider
+        trigger.enabled = true;
     }
 
     public string Detect()
@@ -44,18 +48,25 @@ public class Robot : MonoBehaviour, IInteractable
         return infoString;
     }
 
-    public void Interact()
+    public bool Interact()
     {
-        isBroken = false;
-        breakTime = Random.Range(10f, 601f);
-        BreakTimer();
+        if (breakType != 4)
+        {
+            breakType = 4;
+            breakTime = Random.Range(10f, 601f);
+            trigger.enabled = false;
+            StartCoroutine(BreakTimer());
+            return true;
+        }
+        else return false;
     }
 
     private IEnumerator BreakTimer()
     {
+        Debug.Log("Start Timer");
         //Wait for set amount of time before breaking
         yield return new WaitForSeconds(breakTime);
-
+        Debug.Log("End Timer");
         Break();
     }
 }

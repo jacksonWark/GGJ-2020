@@ -26,9 +26,9 @@ public class Store : MonoBehaviour, IInteractable
         return infoString;
     }
 
-    public void Interact()
+    public bool Interact()
     {
-        
+        return true;
     }
 
 }

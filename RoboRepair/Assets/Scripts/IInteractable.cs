@@ -6,5 +6,5 @@ public interface IInteractable
 {
     string Detect();
 
-    void Interact();
+    bool Interact();
 }

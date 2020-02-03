@@ -70,10 +70,10 @@ public class InteractionManager : MonoBehaviour
                     }
                     else
                     {
-                        if (creditTracker.getCreditBalance() >= num)
+                        if (creditTracker.GetCreditBalance() >= num)
                         {
                             subject.Interact();
-                            creditTracker.spendCredits(num);
+                            creditTracker.SpendCredits(num);
                             inventory[index]++;
                             itemCount++;
                             RefreshUI();
@@ -89,11 +89,14 @@ public class InteractionManager : MonoBehaviour
                 {
                     if (inventory[index] > 0)
                     {
-                        subject.Interact();
-                        creditTracker.addCredits(num);
-                        inventory[index]--;
-                        itemCount--;
-                        RefreshUI();
+                        if (subject.Interact())
+                        {
+                            creditTracker.AddCredits(num);
+                            inventory[index]--;
+                            itemCount--;
+                            RefreshUI();
+                            UIText.text = "";
+                        }
                     }
                     else
                     {
