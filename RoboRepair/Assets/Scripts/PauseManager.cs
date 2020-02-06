@@ -14,7 +14,7 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1;
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
-        hidePaused();
+        HidePaused();
     }
 
     // Update is called once per frame
@@ -26,13 +26,13 @@ public class PauseManager : MonoBehaviour
             if (Time.timeScale == 1)
             {
                 Time.timeScale = 0;
-                showPaused();
+                ShowPaused();
             }
         }
     }
 
     //Display pause menu
-    void showPaused()
+    void ShowPaused()
     {
         foreach(GameObject g in pauseObjects)
         {
@@ -41,7 +41,7 @@ public class PauseManager : MonoBehaviour
     }
 
     //hide pause menu
-    void hidePaused()
+    void HidePaused()
     {
         foreach (GameObject g in pauseObjects)
         {
@@ -55,7 +55,7 @@ public class PauseManager : MonoBehaviour
         if( Time.timeScale == 0)
             {
                 Time.timeScale = 1;
-                hidePaused();
+                HidePaused();
             }
     }
 

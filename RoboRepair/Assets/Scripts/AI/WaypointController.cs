@@ -11,6 +11,7 @@ public class WaypointController : MonoBehaviour
     private int lastWaypointIndex;
     public float movementSpeed = 3.0f;
     public float rotationSpeed = 2.0f;
+
     //public Vector3 lastLocation;
 
     // Start is called before the first frame update
@@ -21,25 +22,21 @@ public class WaypointController : MonoBehaviour
         //lastLocation = this.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move()
     {
         float movementStep = movementSpeed * Time.deltaTime;
         float rotationStep = rotationSpeed * Time.deltaTime;
-        
 
         Vector3 directionToTarget = targetWaypoint.position - transform.position;
         Quaternion rotationToTarget = Quaternion.LookRotation(directionToTarget);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationToTarget, rotationStep);        
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationToTarget, rotationStep);
         //transform.rotation = rotationToTarget;
 
         float distance = Vector3.Distance(transform.position, targetWaypoint.position);
-        CheckDistanceToWaypoint(distance);        
+        CheckDistanceToWaypoint(distance);
 
         transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, movementStep);
-
-        
     }
 
     void CheckDistanceToWaypoint(float currentDistance)

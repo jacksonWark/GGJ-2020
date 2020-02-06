@@ -109,7 +109,7 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit()
     {
         //disable UIText
         //UIText.enabled = false;
