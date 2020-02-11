@@ -9,12 +9,16 @@ public class Robot : MonoBehaviour, IInteractable
     Animator animator;
 
     private string infoString;
-    private float breakTime;
+    private float breakTimer;
     private int reward;
 
     // For random movement
-    private bool isIdle = true;
-    private float timer = 0;
+    private bool isIdle = false;
+    private float moveTimer = 0;
+
+    // For detection
+    private float detectTimer = 0;
+    private bool changeFlag = false;
 
     //Type of break
     // { 0 = HEAD, 1 = ARMS, 2 = LEGS, 3 = COGS, 4 = NOT BROKEN}
@@ -32,23 +36,44 @@ public class Robot : MonoBehaviour, IInteractable
     void Start()
     {
         //breakTime = Random.Range(10f, 60f);
-        breakTime = 5;
+        breakTimer = 5;
         StartCoroutine(BreakTimer());
     }
 
     // Update is called once per frame. If we are broken, move randomly, otherwise patrol along waypoints
     void Update()
     {
-        if (breakType == 4) waypointController.Move();
-        else RandomMovement();
+        if (breakType == 4 ) waypointController.Move();
+        else if (detectTimer <= 0) RandomMovement();
     }
 
     private void FixedUpdate()
     {
-        if (breakType != 4) // and player not nearby
+        if (breakType != 4 && detectTimer <= 0) // and player not nearby
         {
-            timer -= Time.deltaTime;
+            moveTimer -= Time.deltaTime;
         }
+
+        if (detectTimer > 0)
+        {
+            if (!isIdle)
+            {
+                isIdle = !isIdle;
+                changeFlag = true;
+            }
+            detectTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if (changeFlag)
+            {
+                isIdle = !isIdle;
+                changeFlag = false;
+            }
+        }
+
+        if (isIdle) animator.SetBool("isIdle", true);
+        else animator.SetBool("isIdle", false);
     }
 
     private void Break()
@@ -67,6 +92,7 @@ public class Robot : MonoBehaviour, IInteractable
 
     public string Detect()
     {
+        detectTimer = 2f;
         return infoString;
     }
 
@@ -77,7 +103,7 @@ public class Robot : MonoBehaviour, IInteractable
             // Set to not broken
             breakType = 4;
             // Create new random interval until next break
-            breakTime = Random.Range(10f, 601f);
+            breakTimer = Random.Range(10f, 601f);
             // Disable detection collider
             trigger.enabled = false;
             // Start break interval timer
@@ -93,22 +119,21 @@ public class Robot : MonoBehaviour, IInteractable
     {
         if (!isIdle)
         {
-            if (timer <= 0)
+            if (moveTimer <= 0)
             {
                 // Set state to idle, change animation, and wait a random amount of time
                 isIdle = true;
-                animator.SetBool("isIdle", true);
-                timer = Random.Range(1, 6);
+                moveTimer = Random.Range(1, 6);
             }
         }
         else
         {
-            if (timer <= 0)
+            if (moveTimer <= 0)
             {
                 // Set state to moving, turn in a random direction, change animation, and move for a random amount of time
-                transform.rotation = Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
-                timer = Random.Range(1, 6);
-                animator.SetBool("isIdle", false);
+
+                transform.eulerAngles = transform.rotation.eulerAngles + new Vector3(0, Random.Range(90.0f, 270.0f), 0);
+                moveTimer = Random.Range(1, 6);
                 isIdle = false;
             }
         }
@@ -118,7 +143,7 @@ public class Robot : MonoBehaviour, IInteractable
     {
         //Debug.Log("Start Timer");
         //Wait for set amount of time before breaking
-        yield return new WaitForSeconds(breakTime);
+        yield return new WaitForSeconds(breakTimer);
         //Debug.Log("End Timer");
         Break();
     }
