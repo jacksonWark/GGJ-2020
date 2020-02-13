@@ -13,7 +13,7 @@ public class Cop : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         waypointController.Move();
     }

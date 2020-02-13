@@ -40,20 +40,9 @@ public class Robot : MonoBehaviour, IInteractable
         StartCoroutine(BreakTimer());
     }
 
-    // Update is called once per frame. If we are broken, move randomly, otherwise patrol along waypoints
-    void Update()
-    {
-        if (breakType == 4 ) waypointController.Move();
-        else if (detectTimer <= 0) RandomMovement();
-    }
-
+    // FixedUpdate is called once per physics step. If we are broken, move randomly, otherwise patrol along waypoints
     private void FixedUpdate()
     {
-        if (breakType != 4 && detectTimer <= 0) // and player not nearby
-        {
-            moveTimer -= Time.deltaTime;
-        }
-
         if (detectTimer > 0)
         {
             if (!isIdle)
@@ -74,6 +63,14 @@ public class Robot : MonoBehaviour, IInteractable
 
         if (isIdle) animator.SetBool("isIdle", true);
         else animator.SetBool("isIdle", false);
+
+        if (breakType != 4 && detectTimer <= 0)
+        {
+            moveTimer -= Time.deltaTime;
+            RandomMovement();
+        }
+
+        if (breakType == 4) waypointController.Move();
     }
 
     private void Break()
