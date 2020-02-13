@@ -47,7 +47,8 @@ public class Robot : MonoBehaviour, IInteractable
         {
             if (!isIdle)
             {
-                isIdle = !isIdle;
+                isIdle = true;
+                animator.SetBool("isIdle", true);
                 changeFlag = true;
             }
             detectTimer -= Time.deltaTime;
@@ -57,12 +58,13 @@ public class Robot : MonoBehaviour, IInteractable
             if (changeFlag)
             {
                 isIdle = !isIdle;
+                if (isIdle) animator.SetBool("isIdle", true);
+                else animator.SetBool("isIdle", false);
                 changeFlag = false;
             }
         }
 
-        if (isIdle) animator.SetBool("isIdle", true);
-        else animator.SetBool("isIdle", false);
+        
 
         if (breakType != 4 && detectTimer <= 0)
         {
@@ -76,6 +78,7 @@ public class Robot : MonoBehaviour, IInteractable
     private void Break()
     {
         // Change animation to idle
+        isIdle = true;
         animator.SetBool("isIdle", true);
         // Pick random type of break
         breakType = Random.Range(0, 4);
@@ -106,6 +109,7 @@ public class Robot : MonoBehaviour, IInteractable
             // Start break interval timer
             StartCoroutine(BreakTimer());
             // Set animation back to walking
+            isIdle = false;
             animator.SetBool("isIdle", false);
             return true;
         }
@@ -120,6 +124,7 @@ public class Robot : MonoBehaviour, IInteractable
             {
                 // Set state to idle, change animation, and wait a random amount of time
                 isIdle = true;
+                animator.SetBool("isIdle", true);
                 moveTimer = Random.Range(1, 6);
             }
         }
@@ -132,6 +137,7 @@ public class Robot : MonoBehaviour, IInteractable
                 transform.eulerAngles = transform.rotation.eulerAngles + new Vector3(0, Random.Range(90.0f, 270.0f), 0);
                 moveTimer = Random.Range(1, 6);
                 isIdle = false;
+                animator.SetBool("isIdle", false);
             }
         }
     }
