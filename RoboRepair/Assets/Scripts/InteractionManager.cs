@@ -55,7 +55,7 @@ public class InteractionManager : MonoBehaviour
             else if(info[0] == "2") { UIText.text = "Leg"; }
             else { UIText.text = "Cog"; }
 
-            UIText.text += "     $" + info[1] + "\n\nPress E to ";
+            UIText.text += "     $" + info[1] + "\nPress E to ";
 
             if (other.tag == "store") { UIText.text += "buy"; }
             else { UIText.text += "repair"; }
