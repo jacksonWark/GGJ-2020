@@ -103,7 +103,7 @@ public class Robot : MonoBehaviour, IInteractable
             // Set to not broken
             breakType = 4;
             // Create new random interval until next break
-            breakTimer = Random.Range(10f, 601f);
+            breakTimer = Random.Range(10f, 61f);
             // Disable detection collider
             trigger.enabled = false;
             // Start break interval timer
