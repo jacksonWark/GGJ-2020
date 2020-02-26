@@ -7,6 +7,8 @@ public class Robot : MonoBehaviour, IInteractable
     SphereCollider trigger;
     WaypointController waypointController;
     Animator animator;
+    public AudioSource brokenSound;
+    public AudioSource breakSound;
 
     private string infoString;
     private float breakTimer;
@@ -35,8 +37,8 @@ public class Robot : MonoBehaviour, IInteractable
     // Start is called before the first frame update. Generate a random interval, and start a timer that tells robot when to break
     void Start()
     {
-        //breakTime = Random.Range(10f, 60f);
-        breakTimer = 5;
+        breakTimer = Random.Range(5f, 31f);
+        //breakTimer = 5;
         StartCoroutine(BreakTimer());
     }
 
@@ -77,6 +79,7 @@ public class Robot : MonoBehaviour, IInteractable
 
     private void Break()
     {
+        breakSound.Play();
         // Change animation to idle
         isIdle = true;
         animator.SetBool("isIdle", true);
@@ -138,6 +141,7 @@ public class Robot : MonoBehaviour, IInteractable
                 moveTimer = Random.Range(1, 6);
                 isIdle = false;
                 animator.SetBool("isIdle", false);
+                brokenSound.Play();
             }
         }
     }

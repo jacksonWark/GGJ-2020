@@ -8,6 +8,7 @@ public class InteractionManager : MonoBehaviour
 {
 
     public CreditTracker creditTracker;
+    public AudioSource audioSource;
     // UI manager?
     public Text UIText;
     public Text badText;
@@ -86,6 +87,7 @@ public class InteractionManager : MonoBehaviour
                             // Remove credits and add parts to inventory
                             subject.Interact();
                             creditTracker.SpendCredits(num);
+                            audioSource.Play();
                             inventory[index]++;
                             itemCount++;
                             RefreshUI();
@@ -107,6 +109,7 @@ public class InteractionManager : MonoBehaviour
                         {
                             // Remove parts from inventory and add credits
                             creditTracker.AddCredits(num);
+                            audioSource.Play();
                             inventory[index]--;
                             itemCount--;
                             RefreshUI();
