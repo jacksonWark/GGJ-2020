@@ -68,7 +68,7 @@ public class InteractionManager : MonoBehaviour
             //Display/enable UI text
             UIText.enabled = true;
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E))
             {
                 // Is this a store or a robot
                 if (other.gameObject.tag == "store")

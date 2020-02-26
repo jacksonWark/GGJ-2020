@@ -9,6 +9,7 @@ public class Robot : MonoBehaviour, IInteractable
     Animator animator;
     public AudioSource brokenSound;
     public AudioSource breakSound;
+    public AudioSource repairSound;
 
     private string infoString;
     private float breakTimer;
@@ -105,6 +106,8 @@ public class Robot : MonoBehaviour, IInteractable
         {
             // Set to not broken
             breakType = 4;
+            // Play repair sound
+            repairSound.Play();
             // Create new random interval until next break
             breakTimer = Random.Range(10f, 61f);
             // Disable detection collider
