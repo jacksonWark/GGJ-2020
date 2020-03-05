@@ -22,10 +22,6 @@ public class InteractionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //inventory = new int[] { 0, 0, 0, 0 };
-        //itemCount = 0;
-        //UIText.enabled = false;
-        //badText.enabled = false;
         foreach (Text t in parts)
         {
             t.text = "0";
@@ -35,6 +31,11 @@ public class InteractionManager : MonoBehaviour
     private void Update()
     {
         Drop();
+
+        if (creditTracker.NoCredits && itemCount == 0)
+        {
+            creditTracker.GameOver();
+        }
     }
 
     /// <summary>

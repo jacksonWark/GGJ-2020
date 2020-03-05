@@ -11,6 +11,8 @@ public class CreditTracker : MonoBehaviour
     public static CreditTracker instance;
     public Text credText;
 
+    public bool NoCredits { get { return credits < 5; } }
+
     //If there is a score tracker, replace it with this one that is not deleted on scene change
     void Awake()
     {
