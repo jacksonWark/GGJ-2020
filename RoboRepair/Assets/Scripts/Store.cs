@@ -15,7 +15,7 @@ public class Store : MonoBehaviour, IInteractable
     #endregion
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         price = Random.Range(5, 101);
         infoString = type.ToString() + " " + price.ToString();
@@ -29,6 +29,11 @@ public class Store : MonoBehaviour, IInteractable
     public bool Interact()
     {
         return true;
+    }
+
+    public int GetPrice()
+    {
+        return price;
     }
 
 }

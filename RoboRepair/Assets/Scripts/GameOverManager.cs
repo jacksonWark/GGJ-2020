@@ -14,7 +14,7 @@ public class GameOverManager : MonoBehaviour
     {
         scoretext = FindObjectOfType<Text>();
         tracker = FindObjectOfType<CreditTracker>();
-        scoretext.text = "Credits: " + tracker.credits.ToString("D6");
+        scoretext.text = "Credits: " + tracker.GetCreditBalance().ToString("D6");
     }
 
     //exit the game completely

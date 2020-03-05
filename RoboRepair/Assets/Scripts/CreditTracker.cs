@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class CreditTracker : MonoBehaviour
 {
 
-    public int credits;
+    private int credits;
     public static CreditTracker instance;
     public Text credText;
+    private int minCredits;
 
-    public bool NoCredits { get { return credits < 5; } }
+    public bool NoCredits { get { return credits < minCredits; } }
 
     //If there is a score tracker, replace it with this one that is not deleted on scene change
     void Awake()
@@ -49,6 +50,12 @@ public class CreditTracker : MonoBehaviour
     public int GetCreditBalance()
     {
         return credits;
+    }
+
+    public void SetMinCred(int cred)
+    {
+        minCredits = cred;
+        Debug.Log("MIN CRED = " + cred.ToString());
     }
 
     public void GameOver()
