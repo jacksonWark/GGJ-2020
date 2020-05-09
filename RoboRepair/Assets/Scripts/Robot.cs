@@ -14,6 +14,14 @@ public class Robot : MonoBehaviour, IInteractable
     private string infoString;
     private float breakTimer;
     private int reward;
+    private int tempReward;
+    private int rewardStep;
+    private float rewardTimer;
+
+    public int MaxReward = 201;
+    public int MinReward = 30;
+    public float MaxBreakTime = 61;
+    public float MinBreakTime = 25;
 
     // For random movement
     private bool isIdle = false;
@@ -38,7 +46,7 @@ public class Robot : MonoBehaviour, IInteractable
     // Start is called before the first frame update. Generate a random interval, and start a timer that tells robot when to break
     void Start()
     {
-        breakTimer = Random.Range(5f, 31f);
+        breakTimer = Random.Range(MinBreakTime, MaxBreakTime);
         //breakTimer = 5;
         StartCoroutine(BreakTimer());
     }
@@ -72,6 +80,7 @@ public class Robot : MonoBehaviour, IInteractable
         if (breakType != 4 && detectTimer <= 0)
         {
             moveTimer -= Time.deltaTime;
+            CalculateReward();
             RandomMovement();
         }
 
@@ -86,12 +95,14 @@ public class Robot : MonoBehaviour, IInteractable
         animator.SetBool("isIdle", true);
         // Pick random type of break
         breakType = Random.Range(0, 4);
-        // Set random reward for repair - TODO make this parameterized
-        reward = Random.Range(50, 301);
+        // Set random reward for repair
+        tempReward = reward = Random.Range(MinReward, MaxReward);
+        rewardStep = reward / 120;
         // Create string to broadcast information to player UI
         infoString = breakType.ToString() + " " + reward.ToString();
         //enable trigger collider so player can detect robot
         trigger.enabled = true;
+        rewardTimer = 0;
     }
 
     public string Detect()
@@ -109,7 +120,7 @@ public class Robot : MonoBehaviour, IInteractable
             // Play repair sound
             repairSound.Play();
             // Create new random interval until next break
-            breakTimer = Random.Range(10f, 61f);
+            breakTimer = Random.Range(MinBreakTime, MaxBreakTime);
             // Disable detection collider
             trigger.enabled = false;
             // Start break interval timer
@@ -117,6 +128,9 @@ public class Robot : MonoBehaviour, IInteractable
             // Set animation back to walking
             isIdle = false;
             animator.SetBool("isIdle", false);
+
+            rewardTimer = 0;
+
             return true;
         }
         else return false;
@@ -146,6 +160,21 @@ public class Robot : MonoBehaviour, IInteractable
                 animator.SetBool("isIdle", false);
                 brokenSound.Play();
             }
+        }
+    }
+
+    private void CalculateReward()
+    {
+        rewardTimer += Time.deltaTime;
+
+        if (rewardTimer > 10)
+        {
+            if (reward - (rewardStep * (int)rewardTimer) >= 5)
+            {
+                tempReward = reward - (rewardStep* (int) rewardTimer);
+                infoString = breakType.ToString() + " " + tempReward.ToString();
+            }
+            Debug.Log("Reward is " + tempReward.ToString());
         }
     }
 
